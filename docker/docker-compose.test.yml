@@ -1,6 +1,14 @@
 version: '3.3'
 
 services:
+ test:
+   build:
+     context: ..
+     dockerfile: docker/Dockerfile.test
+   image: ${IMAGE:-pipdevs/test}
+   depends_on:
+     - kafka
+     
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     ports:
@@ -20,11 +28,3 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
-
-#  test:
-#    build:
-#      context: ..
-#      dockerfile: docker/Dockerfile.test
-#    image: ${IMAGE:-pipdevs/test}
-#    depends_on:
-#      - kafka
