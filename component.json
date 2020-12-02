@@ -1,6 +1,6 @@
 {
-    "name": "pip-services-kafka",
+    "name": "pip-services3-kafka-node",
     "registry": "pipdevs",
-    "version": "1.0.0",
-    "build": "0"
+    "version": "3.0.2",
+    "build": 0
 }
