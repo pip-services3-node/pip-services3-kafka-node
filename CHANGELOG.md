@@ -4,3 +4,9 @@
 
 Initial release
 
+### Features
+
+* Added DefaultKafkaFactory
+* Added KafkaConnectionResolver
+* Added KafkaMessageQueue
+
