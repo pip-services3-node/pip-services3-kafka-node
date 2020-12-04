@@ -4,9 +4,9 @@ This module is a part of the [Pip.Services](http://pipservices.org) polyglot mic
 
 The module contains the following packages:
 
-- **Build** 
-- **Connect**
-- **Queues** 
+- **Build** - default Factory for create components
+- **Connect** - generate and resolve connection options
+- **Queues** - Message queue that create, sends and receives messages
 
 <a name="links"></a> Quick links:
 
