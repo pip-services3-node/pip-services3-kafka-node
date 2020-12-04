@@ -16,6 +16,11 @@ import { KafkaConnectionResolver } from '../connect/KafkaConnectionResolver';
 import { ConfigParams } from 'pip-services3-commons-node';
 import { isBuffer } from 'util';
 
+
+let MSG_HEADER_TYPE = 'type'
+let MSG_HEADER_CORRELATIONID = 'correlationId';
+
+
 /**
  * Message queue that sends and receives messages via Kafka message broker.
  *  
@@ -67,9 +72,6 @@ import { isBuffer } from 'util';
  *         }
  *     });
  */
-let MSG_HEADER_TYPE = 'type'
-let MSG_HEADER_CORRELATIONID = 'correlationId';
-
 export class KafkaMessageQueue extends MessageQueue {
 
     private _client: Kafka;

@@ -96,7 +96,7 @@
 					<div class="tsd-signature tsd-kind-icon">MSG_<wbr>HEADER_<wbr>CORRELATIONID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;correlationId&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:71</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:21</li>
 						</ul>
 					</aside>
 				</section>
@@ -106,68 +106,9 @@
 					<div class="tsd-signature tsd-kind-icon">MSG_<wbr>HEADER_<wbr>TYPE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;type&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:70</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:20</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Message queue that sends and receives messages via Kafka message broker.</p>
-						</div>
-						<p>Kafka is a popular light-weight protocol to communicate IoT devices.</p>
-						<h3 id="configuration-parameters">Configuration parameters</h3>
-						<ul>
-							<li>topic:                         name of Kafka topic to subscribe</li>
-							<li>connection(s):<ul>
-									<li>discovery_key:               (optional) a key to retrieve the connection from <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html" class="external">IDiscovery</a></li>
-									<li>host:                        host name or IP address</li>
-									<li>port:                        port number</li>
-									<li>uri:                         resource URI or connection string with all parameters in it</li>
-								</ul>
-							</li>
-							<li>credential(s):<ul>
-									<li>store_key:                   (optional) a key to retrieve the credentials from <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html" class="external">ICredentialStore</a></li>
-									<li>username:                    user name</li>
-									<li>password:                    user password</li>
-								</ul>
-							</li>
-						</ul>
-						<h3 id="references">References</h3>
-						<ul>
-							<li><code>*:logger:*:*:1.0</code>             (optional) <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/log.ilogger.html" class="external">ILogger</a> components to pass log messages</li>
-							<li><code>*:counters:*:*:1.0</code>           (optional) <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/count.icounters.html" class="external">ICounters</a> components to pass collected measurements</li>
-							<li><code>*:discovery:*:*:1.0</code>          (optional) <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html" class="external">IDiscovery</a> services to resolve connections</li>
-							<li><code>*:credential-store:*:*:1.0</code>   (optional) Credential stores to resolve credentials</li>
-						</ul>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>[[MessageQueue]]</p>
-							</dd>
-							<dt>see</dt>
-							<dd><p>[[MessagingCapabilities]]</p>
-								<h3 id="example">Example</h3>
-								<pre><code><span class="hljs-keyword">let</span> <span class="hljs-built_in">queue</span> = <span class="hljs-literal">new</span> KafkaMessageQueue(<span class="hljs-string">'myqueue'</span>);
-<span class="hljs-built_in">queue</span>.configure(ConfigParams.fromTuples(
-  <span class="hljs-string">'topic'</span>, <span class="hljs-string">'mytopic'</span>,
-  <span class="hljs-string">'connection.protocol'</span>, <span class="hljs-string">'Kafka'</span>
-  <span class="hljs-string">'connection.host'</span>, <span class="hljs-string">'localhost'</span>
-  <span class="hljs-string">'connection.port'</span>, <span class="hljs-number">1883</span>
-));
-
-<span class="hljs-built_in">queue</span>.open(<span class="hljs-string">'123'</span>, (err) =&gt; {
-    <span class="hljs-params">...</span>
-});
-
-<span class="hljs-built_in">queue</span>.send(<span class="hljs-string">'123'</span>, <span class="hljs-literal">new</span> MessageEnvelope(<span class="hljs-built_in">null</span>, <span class="hljs-string">'mymessage'</span>, <span class="hljs-string">'ABC'</span>));
-
-<span class="hljs-built_in">queue</span>.receive(<span class="hljs-string">'123'</span>, (err, message) =&gt; {
-    <span class="hljs-keyword">if</span> (message != <span class="hljs-built_in">null</span>) {
-       <span class="hljs-params">...</span>
-       <span class="hljs-built_in">queue</span>.complete(<span class="hljs-string">'123'</span>, message);
-    }
-});
-</code></pre></dd>
-						</dl>
-					</div>
 				</section>
 			</section>
 		</div>
