@@ -1,5 +1,5 @@
 let assert = require('chai').assert;
-let async = require('async');
+const async = require('async');
 
 import { IMessageQueue } from 'pip-services3-messaging-node';
 import { MessageEnvelope } from 'pip-services3-messaging-node';

@@ -1,6 +1,6 @@
 /** @module connect */
 /** @hidden */
-let async = require('async');
+const async = require('async');
 
 import { IReferenceable } from 'pip-services3-commons-node';
 import { IReferences } from 'pip-services3-commons-node';

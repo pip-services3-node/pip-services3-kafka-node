@@ -4,6 +4,57 @@ import { IMessageReceiver } from 'pip-services3-messaging-node';
 import { MessageQueue } from 'pip-services3-messaging-node';
 import { MessageEnvelope } from 'pip-services3-messaging-node';
 import { ConfigParams } from 'pip-services3-commons-node';
+/**
+ * Message queue that sends and receives messages via Kafka message broker.
+ *
+ * Kafka is a popular light-weight protocol to communicate IoT devices.
+ *
+ * ### Configuration parameters ###
+ *
+ * - topic:                         name of Kafka topic to subscribe
+ * - connection(s):
+ *   - discovery_key:               (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
+ *   - host:                        host name or IP address
+ *   - port:                        port number
+ *   - uri:                         resource URI or connection string with all parameters in it
+ * - credential(s):
+ *   - store_key:                   (optional) a key to retrieve the credentials from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html ICredentialStore]]
+ *   - username:                    user name
+ *   - password:                    user password
+ *
+ * ### References ###
+ *
+ * - <code>\*:logger:\*:\*:1.0</code>             (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/log.ilogger.html ILogger]] components to pass log messages
+ * - <code>\*:counters:\*:\*:1.0</code>           (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/count.icounters.html ICounters]] components to pass collected measurements
+ * - <code>\*:discovery:\*:\*:1.0</code>          (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]] services to resolve connections
+ * - <code>\*:credential-store:\*:\*:1.0</code>   (optional) Credential stores to resolve credentials
+ *
+ * @see [[MessageQueue]]
+ * @see [[MessagingCapabilities]]
+ *
+ * ### Example ###
+ *
+ *     let queue = new KafkaMessageQueue('myqueue');
+ *     queue.configure(ConfigParams.fromTuples(
+ *       'topic', 'mytopic',
+ *       'connection.protocol', 'Kafka'
+ *       'connection.host', 'localhost'
+ *       'connection.port', 1883
+ *     ));
+ *
+ *     queue.open('123', (err) => {
+ *         ...
+ *     });
+ *
+ *     queue.send('123', new MessageEnvelope(null, 'mymessage', 'ABC'));
+ *
+ *     queue.receive('123', (err, message) => {
+ *         if (message != null) {
+ *            ...
+ *            queue.complete('123', message);
+ *         }
+ *     });
+ */
 export declare class KafkaMessageQueue extends MessageQueue {
     private _client;
     private _subscribed;
@@ -40,11 +91,11 @@ export declare class KafkaMessageQueue extends MessageQueue {
      * Opens the component with given connection and credential parameters.
      *
      * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param connection        connection parameters
+     * @param connections        connection parameters
      * @param credential        credential parameters
      * @param callback 			callback function that receives error or null no errors occured.
      */
-    protected openWithParams(correlationId: string, connection: ConnectionParams, credential: CredentialParams, callback: (err: any) => void): void;
+    protected openWithParams(correlationId: string, connections: ConnectionParams[], credential: CredentialParams, callback: (err: any) => void): void;
     /**
      * Closes component and frees used resources.
      *

@@ -12,13 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KafkaMessageQueue = void 0;
 /** @module queues */
 /** @hidden */
-let async = require('async');
+const async = require('async');
 const kafkajs_1 = require("kafkajs");
 const pip_services3_messaging_node_1 = require("pip-services3-messaging-node");
 const pip_services3_messaging_node_2 = require("pip-services3-messaging-node");
 const pip_services3_messaging_node_3 = require("pip-services3-messaging-node");
 const KafkaConnectionResolver_1 = require("../connect/KafkaConnectionResolver");
 const util_1 = require("util");
+let MSG_HEADER_TYPE = 'type';
+let MSG_HEADER_CORRELATIONID = 'correlationId';
 /**
  * Message queue that sends and receives messages via Kafka message broker.
  *
@@ -70,8 +72,6 @@ const util_1 = require("util");
  *         }
  *     });
  */
-let MSG_HEADER_TYPE = 'type';
-let MSG_HEADER_CORRELATIONID = 'correlationId';
 class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
     /**
      * Creates a new instance of the message queue.
@@ -120,12 +120,12 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
      * Opens the component with given connection and credential parameters.
      *
      * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param connection        connection parameters
+     * @param connections        connection parameters
      * @param credential        credential parameters
      * @param callback 			callback function that receives error or null no errors occured.
      */
-    openWithParams(correlationId, connection, credential, callback) {
-        this._logger.debug(correlationId, "openWithParams");
+    openWithParams(correlationId, connections, credential, callback) {
+        let connection = connections[0];
         this._optionsResolver.compose(correlationId, connection, credential, (err, options) => {
             if (err) {
                 callback(err);

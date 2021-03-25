@@ -1,6 +1,6 @@
 /** @module queues */
 /** @hidden */
-let async = require('async');
+const async = require('async');
 
 import { Kafka, Consumer, Producer, ProducerConfig, ConsumerConfig, AdminConfig, Admin, ITopicConfig, IHeaders, Message, KafkaMessage, logLevel, RecordMetadata } from 'kafkajs';
 
@@ -142,12 +142,12 @@ export class KafkaMessageQueue extends MessageQueue {
      * Opens the component with given connection and credential parameters.
      * 
      * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param connection        connection parameters
+     * @param connections        connection parameters
      * @param credential        credential parameters
      * @param callback 			callback function that receives error or null no errors occured.
      */
-    protected openWithParams(correlationId: string, connection: ConnectionParams, credential: CredentialParams, callback: (err: any) => void): void {
-        this._logger.debug(correlationId, "openWithParams");
+    protected openWithParams(correlationId: string, connections: ConnectionParams[], credential: CredentialParams, callback: (err: any) => void): void {
+        let connection = connections[0];
 
         this._optionsResolver.compose(correlationId, connection, credential, (err, options) => {
             if (err) {

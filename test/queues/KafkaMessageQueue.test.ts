@@ -1,5 +1,5 @@
 let assert = require('chai').assert;
-let async = require('async');
+const async = require('async');
 let process = require('process');
 
 import { ConfigParams, IdGenerator } from 'pip-services3-commons-node';
@@ -18,13 +18,13 @@ suite('KafkaMessageQueue', () => {
 
     var KAFKA_ENABLED = process.env['KAFKA_ENABLED'] || 'true';
     var KAFKA_URI = process.env['KAFKA_URI'];
-    var KAFKA_HOST = process.env['KAFKA_HOST'] || 'localhost';
-    var KAFKA_PORT = process.env['KAFKA_PORT'] || '9092';
+    var KAFKA_SERVICE_HOST = process.env['KAFKA_SERVICE_HOST'] || 'localhost';
+    var KAFKA_SERVICE_PORT = process.env['KAFKA_SERVICE_PORT'] || '9092';
     var KAFKA_TOPIC = process.env['KAFKA_TOPIC'] || 'test';
     var KAFKA_USER = process.env['KAFKA_USER'] || 'user';
     var KAFKA_PASS = process.env['KAFKA_PASS'] || 'pass123';
 
-    if (KAFKA_ENABLED != 'true' && KAFKA_HOST == '' && KAFKA_PORT == '' && KAFKA_URI == '')
+    if (KAFKA_ENABLED != 'true' && KAFKA_SERVICE_HOST == '' && KAFKA_SERVICE_PORT == '' && KAFKA_URI == '')
         return;
 
     let kafkaLogLevel = logLevel.NOTHING;
@@ -45,8 +45,8 @@ suite('KafkaMessageQueue', () => {
         'consumer.group_id', 'custom-group',
 
         'connection.uri', KAFKA_URI,
-        'connection.host', KAFKA_HOST,
-        'connection.port', KAFKA_PORT,
+        'connection.host', KAFKA_SERVICE_HOST,
+        'connection.port', KAFKA_SERVICE_PORT,
         'credential.username', KAFKA_USER,
         'credential.password', KAFKA_PASS,
         'credential.protocol', ''
