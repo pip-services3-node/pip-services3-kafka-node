@@ -26,6 +26,7 @@ suite('KafkaMessageQueue', ()=> {
         'credential.username', brokerUser,
         'credential.password', brokerPass,
         'credential.mechanism','plain',
+        'options.autosubscribe', true
     );        
 
     setup((done) => {

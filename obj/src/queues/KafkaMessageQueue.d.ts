@@ -100,7 +100,7 @@ export declare class KafkaMessageQueue extends MessageQueue implements IReferenc
     protected _readPartitions: number;
     protected _acks: number;
     protected _autoSubscribe: boolean;
-    protected _subscribe: boolean;
+    protected _subscribed: boolean;
     protected _messages: MessageEnvelope[];
     protected _receiver: IMessageReceiver;
     /**
@@ -147,6 +147,7 @@ export declare class KafkaMessageQueue extends MessageQueue implements IReferenc
      */
     close(correlationId: string, callback?: (err: any) => void): void;
     protected getTopic(): string;
+    protected subscribe(correlationId: string, callback: (err: any) => void): void;
     protected fromMessage(message: MessageEnvelope): any;
     protected toMessage(msg: any): MessageEnvelope;
     private getHeaderByKey;

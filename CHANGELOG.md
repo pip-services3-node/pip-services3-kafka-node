@@ -8,6 +8,7 @@ Migrated to a new messaging model
 * **build** - Added KafkaMessageQueueFactory component
 * **connect** - Added KafkaConnection component
 * **queues** - Reimplemented the queue to work with shared connection
+* **queues** - Added autosubscribe option
 
 ## <a name="3.0.0"></a> 3.0.0 (2020-08-13)
 

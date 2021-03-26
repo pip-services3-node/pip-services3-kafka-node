@@ -306,8 +306,6 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
         });
     }
 
-
-
     /**
      * Reads a list of registered queue names.
      * If connection doesn't support this function returnes an empty list.

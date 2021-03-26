@@ -94,6 +94,7 @@
 							</ul>
 						</li>
 						<li>options:<ul>
+								<li>autosubscribe:        (optional) true to automatically subscribe on option (default: false)</li>
 								<li>acks                  (optional) control the number of required acks: -1 - all, 0 - none, 1 - only leader (default: -1)</li>
 								<li>log_level:            (optional) log level 0 - None, 1 - Error, 2 - Warn, 3 - Info, 4 - Debug (default: 1)</li>
 								<li>connect_timeout:      (optional) number of milliseconds to connect to broker (default: 1000)</li>
@@ -185,6 +186,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_acks" class="tsd-kind-icon">_acks</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_autocommit" class="tsd-kind-icon">_auto<wbr>Commit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_autosubscribe" class="tsd-kind-icon">_auto<wbr>Subscribe</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_connection" class="tsd-kind-icon">_connection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_dependencyresolver" class="tsd-kind-icon">_dependency<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_frombeginning" class="tsd-kind-icon">_from<wbr>Beginning</a></li>
@@ -193,6 +195,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_messages" class="tsd-kind-icon">_messages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_readpartitions" class="tsd-kind-icon">_read<wbr>Partitions</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_receiver" class="tsd-kind-icon">_receiver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_subscribed" class="tsd-kind-icon">_subscribed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#_topic" class="tsd-kind-icon">_topic</a></li>
 							</ul>
 						</section>
@@ -219,6 +222,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="queues.kafkamessagequeue.html#renewlock" class="tsd-kind-icon">renew<wbr>Lock</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="queues.kafkamessagequeue.html#send" class="tsd-kind-icon">send</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="queues.kafkamessagequeue.html#setreferences" class="tsd-kind-icon">set<wbr>References</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#subscribe" class="tsd-kind-icon">subscribe</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="queues.kafkamessagequeue.html#tomessage" class="tsd-kind-icon">to<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="queues.kafkamessagequeue.html#unsetreferences" class="tsd-kind-icon">unset<wbr>References</a></li>
 							</ul>
@@ -238,7 +242,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:133</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:137</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -270,7 +274,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_acks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:131</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:133</li>
 						</ul>
 					</aside>
 				</section>
@@ -280,7 +284,17 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_auto<wbr>Commit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:129</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:131</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_autosubscribe" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _auto<wbr>Subscribe</h3>
+					<div class="tsd-signature tsd-kind-icon">_auto<wbr>Subscribe<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in queues/KafkaMessageQueue.ts:134</li>
 						</ul>
 					</aside>
 				</section>
@@ -290,7 +304,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_connection<span class="tsd-signature-symbol">:</span> <a href="connect.kafkaconnection.html" class="tsd-signature-type">KafkaConnection</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:124</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:126</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -305,7 +319,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_dependency<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DependencyResolver</span><span class="tsd-signature-symbol"> =&nbsp;new DependencyResolver(KafkaMessageQueue._defaultConfig)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:115</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:117</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +334,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_from<wbr>Beginning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:128</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:130</li>
 						</ul>
 					</aside>
 				</section>
@@ -330,7 +344,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_group<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:127</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:129</li>
 						</ul>
 					</aside>
 				</section>
@@ -340,7 +354,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CompositeLogger</span><span class="tsd-signature-symbol"> =&nbsp;new CompositeLogger()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:119</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:121</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -355,7 +369,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_messages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MessageEnvelope</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:132</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:136</li>
 						</ul>
 					</aside>
 				</section>
@@ -365,7 +379,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_read<wbr>Partitions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:130</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:132</li>
 						</ul>
 					</aside>
 				</section>
@@ -375,7 +389,17 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_receiver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IMessageReceiver</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:133</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:137</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_subscribed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _subscribed</h3>
+					<div class="tsd-signature tsd-kind-icon">_subscribed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in queues/KafkaMessageQueue.ts:135</li>
 						</ul>
 					</aside>
 				</section>
@@ -385,7 +409,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					<div class="tsd-signature tsd-kind-icon">_topic<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in queues/KafkaMessageQueue.ts:126</li>
+							<li>Defined in queues/KafkaMessageQueue.ts:128</li>
 						</ul>
 					</aside>
 				</section>
@@ -402,7 +426,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:566</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:622</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -461,7 +485,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:384</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:408</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,7 +540,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:276</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:274</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -571,7 +595,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:533</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:589</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -628,7 +652,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:149</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:153</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -659,7 +683,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:658</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:726</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -691,7 +715,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:310</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:334</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -714,7 +738,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:306</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:307</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -731,7 +755,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:208</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:213</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -754,7 +778,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:628</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:684</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -799,7 +823,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:596</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:652</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -855,7 +879,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:353</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:377</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -884,7 +908,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:218</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:223</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -939,7 +963,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:405</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:429</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -998,7 +1022,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:434</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:467</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1064,7 +1088,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:394</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:418</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1116,7 +1140,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:455</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:497</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1180,7 +1204,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:519</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:575</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1243,7 +1267,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:493</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:549</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1304,7 +1328,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:168</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:173</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1326,6 +1350,50 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="subscribe" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> subscribe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">subscribe<span class="tsd-signature-symbol">(</span>correlationId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in queues/KafkaMessageQueue.ts:311</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>correlationId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>err: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="tomessage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> to<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -1335,7 +1403,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:328</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:352</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1358,7 +1426,7 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in queues/KafkaMessageQueue.ts:187</li>
+									<li>Defined in queues/KafkaMessageQueue.ts:192</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1415,6 +1483,9 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 								<a href="queues.kafkamessagequeue.html#_autocommit" class="tsd-kind-icon">_auto<wbr>Commit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="queues.kafkamessagequeue.html#_autosubscribe" class="tsd-kind-icon">_auto<wbr>Subscribe</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="queues.kafkamessagequeue.html#_connection" class="tsd-kind-icon">_connection</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
@@ -1437,6 +1508,9 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="queues.kafkamessagequeue.html#_receiver" class="tsd-kind-icon">_receiver</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="queues.kafkamessagequeue.html#_subscribed" class="tsd-kind-icon">_subscribed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="queues.kafkamessagequeue.html#_topic" class="tsd-kind-icon">_topic</a>
@@ -1500,6 +1574,9 @@ queue.receive(<span class="hljs-string">"123"</span>, (err, message) =&gt; {
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="queues.kafkamessagequeue.html#setreferences" class="tsd-kind-icon">set<wbr>References</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="queues.kafkamessagequeue.html#subscribe" class="tsd-kind-icon">subscribe</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 								<a href="queues.kafkamessagequeue.html#tomessage" class="tsd-kind-icon">to<wbr>Message</a>

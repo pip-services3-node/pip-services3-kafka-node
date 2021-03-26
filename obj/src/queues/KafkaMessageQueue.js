@@ -196,23 +196,19 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
                 return;
             }
             // Subscribe right away
-            let topic = this.getTopic();
-            let options = {
-                fromBeginning: this._fromBeginning,
-                autoCommit: this._autoCommit,
-                partitionsConsumedConcurrently: this._readPartitions
-            };
-            this._connection.subscribe(topic, this._groupId, options, this, (err) => {
-                if (err != null) {
-                    this._logger.error(correlationId, err, "Failed to subscribe to topic " + topic);
+            if (this._autoSubscribe) {
+                this.subscribe(correlationId, (err) => {
+                    if (err == null) {
+                        this._opened = true;
+                    }
                     if (callback)
                         callback(err);
-                    return;
-                }
-                this._opened = true;
+                });
+            }
+            else {
                 if (callback)
                     callback(null);
-            });
+            }
         };
         if (this._localConnection) {
             this._connection.open(correlationId, openCurl);
@@ -238,8 +234,11 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
         }
         let closeCurl = (err) => {
             // Unsubscribe from the topic
-            let topic = this.getTopic();
-            this._connection.unsubscribe(topic, this._groupId, this);
+            if (this._subscribed) {
+                let topic = this.getTopic();
+                this._connection.unsubscribe(topic, this._groupId, this);
+            }
+            this._subscribed = false;
             this._messages = [];
             this._opened = false;
             this._receiver = null;
@@ -255,6 +254,30 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
     }
     getTopic() {
         return this._topic != null && this._topic != "" ? this._topic : this.getName();
+    }
+    subscribe(correlationId, callback) {
+        if (this._subscribed) {
+            if (callback)
+                callback(null);
+            return;
+        }
+        // Subscribe to the topic
+        let topic = this.getTopic();
+        let options = {
+            fromBeginning: this._fromBeginning,
+            autoCommit: this._autoCommit,
+            partitionsConsumedConcurrently: this._readPartitions
+        };
+        this._connection.subscribe(topic, this._groupId, options, this, (err) => {
+            if (err != null) {
+                this._logger.error(correlationId, err, "Failed to subscribe to topic " + topic);
+            }
+            else {
+                this._subscribed = true;
+            }
+            if (callback)
+                callback(err);
+        });
     }
     fromMessage(message) {
         if (message == null)
@@ -347,14 +370,22 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
             callback(err, null);
             return;
         }
-        let message = null;
-        if (this._messages.length > 0) {
-            message = this._messages[0];
-        }
-        if (message != null) {
-            this._logger.trace(message.correlation_id, "Peeked message %s on %s", message, this.getName());
-        }
-        callback(null, message);
+        // Subscribe to topic if needed
+        this.subscribe(correlationId, (err) => {
+            if (err != null) {
+                callback(err, null);
+                return;
+            }
+            // Peek a message from the top
+            let message = null;
+            if (this._messages.length > 0) {
+                message = this._messages[0];
+            }
+            if (message != null) {
+                this._logger.trace(message.correlation_id, "Peeked message %s on %s", message, this.getName());
+            }
+            callback(null, message);
+        });
     }
     /**
      * Peeks multiple incoming messages from the queue without removing them.
@@ -372,9 +403,17 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
             callback(err, null);
             return;
         }
-        let messages = this._messages.slice(0, messageCount);
-        this._logger.trace(correlationId, "Peeked %d messages on %s", messages.length, this.getName());
-        callback(null, messages);
+        // Subscribe to topic if needed
+        this.subscribe(correlationId, (err) => {
+            if (err != null) {
+                callback(err, null);
+                return;
+            }
+            // Peek a batch of messages
+            let messages = this._messages.slice(0, messageCount);
+            this._logger.trace(correlationId, "Peeked %d messages on %s", messages.length, this.getName());
+            callback(null, messages);
+        });
     }
     /**
      * Receives an incoming message and removes it from the queue.
@@ -384,26 +423,38 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
      * @param callback          callback function that receives a message or error.
      */
     receive(correlationId, waitTimeout, callback) {
-        let message = null;
-        // Return message immediately if it exist
-        if (this._messages.length > 0) {
-            message = this._messages.shift();
-            callback(null, message);
+        let err = this.checkOpen(correlationId);
+        if (err != null) {
+            callback(err, null);
             return;
         }
-        // Otherwise wait and return
-        let checkInterval = 100;
-        let elapsedTime = 0;
-        async.whilst(() => {
-            return this.isOpen() && elapsedTime < waitTimeout && message == null;
-        }, (whilstCallback) => {
-            elapsedTime += checkInterval;
-            setTimeout(() => {
+        // Subscribe to topic if needed
+        this.subscribe(correlationId, (err) => {
+            if (err != null) {
+                callback(err, null);
+                return;
+            }
+            let message = null;
+            // Return message immediately if it exist
+            if (this._messages.length > 0) {
                 message = this._messages.shift();
-                whilstCallback();
-            }, checkInterval);
-        }, (err) => {
-            callback(err, message);
+                callback(null, message);
+                return;
+            }
+            // Otherwise wait and return
+            let checkInterval = 100;
+            let elapsedTime = 0;
+            async.whilst(() => {
+                return this.isOpen() && elapsedTime < waitTimeout && message == null;
+            }, (whilstCallback) => {
+                elapsedTime += checkInterval;
+                setTimeout(() => {
+                    message = this._messages.shift();
+                    whilstCallback();
+                }, checkInterval);
+            }, (err) => {
+                callback(err, message);
+            });
         });
     }
     /**
@@ -540,21 +591,31 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
     * @see [[receive]]
     */
     listen(correlationId, receiver) {
-        this._logger.trace(null, "Started listening messages at %s", this.getName());
-        // Resend collected messages to receiver
-        async.whilst(() => {
-            return this.isOpen() && this._messages.length > 0;
-        }, (whilstCallback) => {
-            let message = this._messages.shift();
-            if (message != null) {
-                this.sendMessageToReceiver(receiver, message);
+        let err = this.checkOpen(correlationId);
+        if (err != null) {
+            return;
+        }
+        // Subscribe to topic if needed
+        this.subscribe(correlationId, (err) => {
+            if (err != null) {
+                return;
             }
-            whilstCallback();
-        }, (err) => {
-            // Set the receiver
-            if (this.isOpen()) {
-                this._receiver = receiver;
-            }
+            this._logger.trace(null, "Started listening messages at %s", this.getName());
+            // Resend collected messages to receiver
+            async.whilst(() => {
+                return this.isOpen() && this._messages.length > 0;
+            }, (whilstCallback) => {
+                let message = this._messages.shift();
+                if (message != null) {
+                    this.sendMessageToReceiver(receiver, message);
+                }
+                whilstCallback();
+            }, (err) => {
+                // Set the receiver
+                if (this.isOpen()) {
+                    this._receiver = receiver;
+                }
+            });
         });
     }
     /**
