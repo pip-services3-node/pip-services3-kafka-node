@@ -3,6 +3,8 @@ import { Factory } from 'pip-services3-components-node';
 import { Descriptor } from 'pip-services3-commons-node';
 
 import { KafkaMessageQueue } from '../queues/KafkaMessageQueue';
+import { KafkaConnection } from '../connect/KafkaConnection';
+import { KafkaMessageQueueFactory } from './KafkaMessageQueueFactory';
 
 /**
  * Creates [[KafkaMessageQueue]] components by their descriptors.
@@ -10,8 +12,9 @@ import { KafkaMessageQueue } from '../queues/KafkaMessageQueue';
  * @see [[KafkaMessageQueue]]
  */
 export class DefaultKafkaFactory extends Factory {
-	public static readonly Descriptor = new Descriptor("pip-services", "factory", "kafka", "default", "1.0");
-    public static readonly KafkaQueueDescriptor: Descriptor = new Descriptor("pip-services", "message-queue", "kafka", "*", "1.0");
+    private static readonly KafkaQueueDescriptor: Descriptor = new Descriptor("pip-services", "message-queue", "kafka", "*", "1.0");
+	private static readonly KafkaConnectionDescriptor: Descriptor = new Descriptor("pip-services", "connection", "kafka", "*", "1.0");
+	private static readonly KafkaQueueFactoryDescriptor: Descriptor = new Descriptor("pip-services", "queue-factory", "kafka", "*", "1.0");
 
 	/**
 	 * Create a new instance of the factory.
@@ -19,7 +22,10 @@ export class DefaultKafkaFactory extends Factory {
 	public constructor() {
         super();
         this.register(DefaultKafkaFactory.KafkaQueueDescriptor, (locator: Descriptor) => {
-            return new KafkaMessageQueue(locator.getName());
+            let name = (typeof locator.getName === "function") ? locator.getName() : null; 
+            return new KafkaMessageQueue(name);
         });
+		this.registerAsType(DefaultKafkaFactory.KafkaConnectionDescriptor, KafkaConnection);
+		this.registerAsType(DefaultKafkaFactory.KafkaQueueFactoryDescriptor, KafkaMessageQueueFactory);
 	}
 }

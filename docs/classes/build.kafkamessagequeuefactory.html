@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>KafkaConnectionResolver | pip-services3-kafka-node</title>
+	<title>KafkaMessageQueueFactory | pip-services3-kafka-node</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/connect.html">connect</a>
+					<a href="../modules/build.html">build</a>
 				</li>
 				<li>
-					<a href="connect.kafkaconnectionresolver.html">KafkaConnectionResolver</a>
+					<a href="build.kafkamessagequeuefactory.html">KafkaMessageQueueFactory</a>
 				</li>
 			</ul>
-			<h1>Class KafkaConnectionResolver</h1>
+			<h1>Class KafkaMessageQueueFactory</h1>
 		</div>
 	</div>
 </header>
@@ -70,37 +70,34 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Helper class that resolves Kafka connection and credential parameters,
-						validates them and generates connection options.</p>
+						<p>Creates <a href="queues.kafkamessagequeue.html">KafkaMessageQueue</a> components by their descriptors.
+						Name of created message queue is taken from its descriptor.</p>
 					</div>
-					<h3 id="configuration-parameters">Configuration parameters</h3>
-					<ul>
-						<li>connection(s):<ul>
-								<li>discovery_key:               (optional) a key to retrieve the connection from <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html" class="external">IDiscovery</a></li>
-								<li>host:                        host name or IP address</li>
-								<li>port:                        port number</li>
-								<li>uri:                         resource URI or connection string with all parameters in it</li>
-							</ul>
-						</li>
-						<li>credential(s):<ul>
-								<li>store_key:                   (optional) a key to retrieve the credentials from <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html" class="external">ICredentialStore</a></li>
-								<li>username:                    user name</li>
-								<li>password:                    user password</li>
-							</ul>
-						</li>
-					</ul>
-					<h3 id="references">References</h3>
-					<ul>
-						<li><code>*:discovery:*:*:1.0</code>          (optional) <a href="https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html" class="external">IDiscovery</a> services to resolve connections</li>
-						<li><code>*:credential-store:*:*:1.0</code>   (optional) Credential stores to resolve credentials</li>
-					</ul>
+					<dl class="tsd-comment-tags">
+						<dt>see</dt>
+						<dd><p><a href="https://pip-services3-node.github.io/pip-services3-components-node/classes/build.factory.html" class="external">Factory</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="queues.kafkamessagequeue.html">KafkaMessageQueue</a></p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">KafkaConnectionResolver</span>
+						<a href="build.kafkamessagequeuefactory.html" class="tsd-signature-type">KafkaMessageQueueFactory</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">KafkaMessageQueueFactory</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="build.kafkamessagequeuefactory.html" class="tsd-signature-type">KafkaMessageQueueFactory</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -109,136 +106,57 @@
 				<ul class="tsd-hierarchy">
 					<li><span class="tsd-signature-type">any</span></li>
 					<li><span class="tsd-signature-type">any</span></li>
+					<li><span class="tsd-signature-type">any</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-private-protected">
-							<h3>Properties</h3>
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="connect.kafkaconnectionresolver.html#_connectionresolver" class="tsd-kind-icon">_connection<wbr>Resolver</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="connect.kafkaconnectionresolver.html#_credentialresolver" class="tsd-kind-icon">_credential<wbr>Resolver</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="build.kafkamessagequeuefactory.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="connect.kafkaconnectionresolver.html#compose" class="tsd-kind-icon">compose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="connect.kafkaconnectionresolver.html#configure" class="tsd-kind-icon">configure</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="connect.kafkaconnectionresolver.html#resolve" class="tsd-kind-icon">resolve</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="connect.kafkaconnectionresolver.html#setreferences" class="tsd-kind-icon">set<wbr>References</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="build.kafkamessagequeuefactory.html#configure" class="tsd-kind-icon">configure</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="build.kafkamessagequeuefactory.html#createqueue" class="tsd-kind-icon">create<wbr>Queue</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="build.kafkamessagequeuefactory.html#setreferences" class="tsd-kind-icon">set<wbr>References</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="_connectionresolver" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _connection<wbr>Resolver</h3>
-					<div class="tsd-signature tsd-kind-icon">_connection<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ConnectionResolver</span><span class="tsd-signature-symbol"> =&nbsp;new ConnectionResolver()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in connect/KafkaConnectionResolver.ts:40</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The connections resolver.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="_credentialresolver" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _credential<wbr>Resolver</h3>
-					<div class="tsd-signature tsd-kind-icon">_credential<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CredentialResolver</span><span class="tsd-signature-symbol"> =&nbsp;new CredentialResolver()</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in connect/KafkaConnectionResolver.ts:44</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The credentials resolver.</p>
-						</div>
-					</div>
-				</section>
-			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="compose" class="tsd-anchor"></a>
-					<h3>compose</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">compose<span class="tsd-signature-symbol">(</span>correlationId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, connections<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ConnectionParams</span><span class="tsd-signature-symbol">[]</span>, credential<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CredentialParams</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Kafka<wbr>Message<wbr>Queue<wbr>Factory<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="build.kafkamessagequeuefactory.html" class="tsd-signature-type">KafkaMessageQueueFactory</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in connect/KafkaConnectionResolver.ts:227</li>
+									<li>Defined in build/KafkaMessageQueueFactory.ts:23</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Composes Kafka connection options from connection and credential parameters.</p>
+									<p>Create a new instance of the factory.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>correlationId: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>(optional) transaction id to trace execution through call chain.</p>
-									</div>
-								</li>
-								<li>
-									<h5>connections: <span class="tsd-signature-type">ConnectionParams</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>connection parameters</p>
-									</div>
-								</li>
-								<li>
-									<h5>credential: <span class="tsd-signature-type">CredentialParams</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>credential parameters</p>
-									</div>
-								</li>
-								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>callback function that receives resolved options or error.</p>
-									</div>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>err: <span class="tsd-signature-type">any</span></h5>
-														</li>
-														<li>
-															<h5>options: <span class="tsd-signature-type">any</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="build.kafkamessagequeuefactory.html" class="tsd-signature-type">KafkaMessageQueueFactory</a></h4>
 						</li>
 					</ul>
 				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="configure" class="tsd-anchor"></a>
 					<h3>configure</h3>
@@ -249,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in connect/KafkaConnectionResolver.ts:51</li>
+									<li>Defined in build/KafkaMessageQueueFactory.ts:41</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -271,60 +189,33 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="resolve" class="tsd-anchor"></a>
-					<h3>resolve</h3>
+					<a name="createqueue" class="tsd-anchor"></a>
+					<h3>create<wbr>Queue</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">(</span>correlationId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Queue<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IMessageQueue</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in connect/KafkaConnectionResolver.ts:182</li>
+									<li>Defined in build/KafkaMessageQueueFactory.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Resolves Kafka connection options from connection and credential parameters.</p>
+									<p>Creates a message queue component and assigns its name.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>correlationId: <span class="tsd-signature-type">string</span></h5>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>(optional) transaction id to trace execution through call chain.</p>
+										<p>a name of the created message queue.</p>
 									</div>
-								</li>
-								<li>
-									<h5>callback: <span class="tsd-signature-type">function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>callback function that receives resolved options or error.</p>
-									</div>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>err: <span class="tsd-signature-type">any</span></h5>
-														</li>
-														<li>
-															<h5>options: <span class="tsd-signature-type">any</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IMessageQueue</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -338,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in connect/KafkaConnectionResolver.ts:61</li>
+									<li>Defined in build/KafkaMessageQueueFactory.ts:50</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -373,10 +264,10 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_connect_kafkasubscription_.html">"connect/<wbr>Kafka<wbr>Subscription"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/build.html">build</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/connect.html">connect</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -390,38 +281,29 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="connect.kafkaconnection.html" class="tsd-kind-icon">Kafka<wbr>Connection</a>
+						<a href="build.defaultkafkafactory.html" class="tsd-kind-icon">Default<wbr>Kafka<wbr>Factory</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="connect.kafkaconnectionresolver.html" class="tsd-kind-icon">Kafka<wbr>Connection<wbr>Resolver</a>
+						<a href="build.kafkamessagequeuefactory.html" class="tsd-kind-icon">Kafka<wbr>Message<wbr>Queue<wbr>Factory</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="connect.kafkaconnectionresolver.html#_connectionresolver" class="tsd-kind-icon">_connection<wbr>Resolver</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="connect.kafkaconnectionresolver.html#_credentialresolver" class="tsd-kind-icon">_credential<wbr>Resolver</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="build.kafkamessagequeuefactory.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="connect.kafkaconnectionresolver.html#compose" class="tsd-kind-icon">compose</a>
+								<a href="build.kafkamessagequeuefactory.html#configure" class="tsd-kind-icon">configure</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="connect.kafkaconnectionresolver.html#configure" class="tsd-kind-icon">configure</a>
+								<a href="build.kafkamessagequeuefactory.html#createqueue" class="tsd-kind-icon">create<wbr>Queue</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="connect.kafkaconnectionresolver.html#resolve" class="tsd-kind-icon">resolve</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="connect.kafkaconnectionresolver.html#setreferences" class="tsd-kind-icon">set<wbr>References</a>
+								<a href="build.kafkamessagequeuefactory.html#setreferences" class="tsd-kind-icon">set<wbr>References</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/connect.html#kafka" class="tsd-kind-icon">kafka</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

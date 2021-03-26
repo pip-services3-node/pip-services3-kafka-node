@@ -1,6 +1,6 @@
 {
     "name": "pip-services3-kafka-node",
-    "version": "3.0.2",
+    "version": "3.1.0",
     "author": "Conceptual Vision Consulting LLC",
     "description": "Kafka messaging for Pip.Services in Node.js",
     "contributors": [
@@ -43,7 +43,7 @@
         "kafkajs": "^1.12.0",
         "pip-services3-commons-node": "^3.0.0",
         "pip-services3-components-node": "^3.0.0",
-        "pip-services3-messaging-node": "^3.2.1"
+        "pip-services3-messaging-node": "^3.2.2"
     },
     "devDependencies": {
         "@types/async": "^2.0.0",

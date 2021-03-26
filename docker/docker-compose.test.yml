@@ -32,7 +32,7 @@ services:
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CLIENT_USER=user
+      - KAFKA_CLIENT_USER=kafka
       - KAFKA_CLIENT_PASSWORD=pass123
     depends_on:
       - zookeeper

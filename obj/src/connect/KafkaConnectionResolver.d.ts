@@ -49,21 +49,22 @@ export declare class KafkaConnectionResolver implements IReferenceable, IConfigu
      */
     setReferences(references: IReferences): void;
     private validateConnection;
+    private parseUri;
     private composeOptions;
     /**
-     * Resolves MQTT connection options from connection and credential parameters.
+     * Resolves Kafka connection options from connection and credential parameters.
      *
      * @param correlationId     (optional) transaction id to trace execution through call chain.
      * @param callback 			callback function that receives resolved options or error.
      */
     resolve(correlationId: string, callback: (err: any, options: any) => void): void;
     /**
-     * Composes MQTT connection options from connection and credential parameters.
+     * Composes Kafka connection options from connection and credential parameters.
      *
      * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param connection        connection parameters
+     * @param connections        connection parameters
      * @param credential        credential parameters
      * @param callback 			callback function that receives resolved options or error.
      */
-    compose(correlationId: string, connection: ConnectionParams, credential: CredentialParams, callback: (err: any, options: any) => void): void;
+    compose(correlationId: string, connections: ConnectionParams[], credential: CredentialParams, callback: (err: any, options: any) => void): void;
 }

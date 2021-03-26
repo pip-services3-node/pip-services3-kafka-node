@@ -64,55 +64,136 @@ export class KafkaConnectionResolver implements IReferenceable, IConfigurable {
     }
 
     private validateConnection(correlationId: string, connection: ConnectionParams): any {
-        if (connection == null)
+        if (connection == null) {
             return new ConfigException(correlationId, "NO_CONNECTION", "Kafka connection is not set");
+        }
 
         let uri = connection.getUri();
         if (uri != null) return null;
 
-        let host = connection.getHost();
-        if (host == null)
-            return new ConfigException(correlationId, "NO_HOST", "Connection host is not set");
+        let protocol = connection.getAsStringWithDefault("protocol", "tcp");
+        if (protocol == null) {
+            return new ConfigException(correlationId, "NO_PROTOCOL", "Connection protocol is not set");
+        }
+        if (protocol != "tcp") {
+            return new ConfigException(correlationId, "UNSUPPORTED_PROTOCOL", "The protocol "+protocol+" is not supported");
+        }
 
-        let port = connection.getPort();
-        if (port == 0)
+        let host = connection.getHost();
+        if (host == null) {
+            return new ConfigException(correlationId, "NO_HOST", "Connection host is not set");
+        }
+
+        let port = connection.getAsIntegerWithDefault("protocol", 9092);
+        if (port == 0) {
             return new ConfigException(correlationId, "NO_PORT", "Connection port is not set");
+        }
 
         return null;
     }
 
-    private composeOptions(connection: ConnectionParams, credential: CredentialParams): any {
-        // Define additional parameters parameters
-        let options: any = connection.override(credential).getAsObject();
+    private parseUri(value: string, options: ConfigParams): void {
+        if (value == null) return null;
 
-        // Compose uri
-        if (options.uri == null) {
-            options.uri = options.host;
-            if (options.port)
-                options.uri += ':' + options.port;
+        let brokers = "";
+        let uris = value.split(",");
+        for (let uri of uris) {
+            uri = uri.trim();
+            
+            let pos = uri.indexOf("?");
+            uri = pos >= 0 ? uri.substring(0, pos) : uri;
+
+            pos = uri.indexOf("://");
+            uri = pos >= 0 ? uri.substring(pos + 3) : uri;
+
+            pos = uri.indexOf("@");
+
+            let server = pos > 0 ? uri.substring(pos + 1) : uri;
+            if (brokers != "") {
+                brokers += ",";
+            }
+            brokers += server;
+
+            if (pos > 0) {
+                let namePass = uri.substring(0, pos);
+                pos = namePass.indexOf(":");
+                let name = pos > 0 ? namePass.substring(0, pos) : namePass;
+                let pass = pos > 0 ? namePass.substring(pos + 1) : "";
+                options.setAsObject("username", name);
+                options.setAsObject("password", pass);
+            }
         }
 
-        return options;
+        options.setAsObject("brokers", brokers);
+    }
+
+    private composeOptions(connections: ConnectionParams[], credential: CredentialParams): any {
+        // Define additional parameters parameters
+        if (credential == null) {
+            credential = new CredentialParams();
+        }
+
+        // Contruct options and copy over credentials
+        let options = new ConfigParams();
+        options = options.setDefaults(credential);
+
+        let globalUri = "";
+        let brokers = "";
+
+        // Process connections, find or constract uri
+        for (let connection of connections) {
+            if (globalUri != "") {
+                continue;
+            }
+
+            let uri = connection.getUri()
+            if (uri != null) {
+                globalUri = uri;
+                continue;
+            }
+
+            if (brokers != "") {
+                brokers += ",";
+            }
+
+            let host = connection.getHost();
+            brokers += host;
+
+            let port = connection.getAsIntegerWithDefault("port", 9092);
+            brokers += ":" + port;
+        }
+
+        // Set connection uri
+        if (globalUri != "") {
+            this.parseUri(globalUri, options);
+        } else {
+            options.setAsObject("brokers", brokers);
+        }
+
+        return options
     }
 
     /**
-     * Resolves MQTT connection options from connection and credential parameters.
+     * Resolves Kafka connection options from connection and credential parameters.
      * 
      * @param correlationId     (optional) transaction id to trace execution through call chain.
      * @param callback 			callback function that receives resolved options or error.
      */
     public resolve(correlationId: string, callback: (err: any, options: any) => void): void {
-        let connection: ConnectionParams;
+        let connections: ConnectionParams[];
         let credential: CredentialParams;
 
         async.parallel([
             (callback) => {
-                this._connectionResolver.resolve(correlationId, (err: any, result: ConnectionParams) => {
-                    connection = result;
+                this._connectionResolver.resolveAll(correlationId, (err: any, result: ConnectionParams[]) => {
+                    connections = result;
 
                     // Validate connections
-                    if (err == null)
-                        err = this.validateConnection(correlationId, connection);
+                    if (err == null) {
+                        for (let connection of connections) {
+                            err = err || this.validateConnection(correlationId, connection);
+                        }
+                    }
 
                     callback(err);
                 });
@@ -129,28 +210,32 @@ export class KafkaConnectionResolver implements IReferenceable, IConfigurable {
             if (err)
                 callback(err, null);
             else {
-                let options = this.composeOptions(connection, credential);
+                let options = this.composeOptions(connections, credential);
                 callback(null, options);
             }
         });
     }
 
     /**
-     * Composes MQTT connection options from connection and credential parameters.
+     * Composes Kafka connection options from connection and credential parameters.
      * 
      * @param correlationId     (optional) transaction id to trace execution through call chain.
-     * @param connection        connection parameters
+     * @param connections        connection parameters
      * @param credential        credential parameters
      * @param callback 			callback function that receives resolved options or error.
      */
-    public compose(correlationId: string, connection: ConnectionParams, credential: CredentialParams,
+    public compose(correlationId: string, connections: ConnectionParams[], credential: CredentialParams,
         callback: (err: any, options: any) => void): void {
 
         // Validate connections
-        let err = this.validateConnection(correlationId, connection);
+        let err = null;
+        for (let connection of connections) {
+            err = err || this.validateConnection(correlationId, connection);
+        }
+
         if (err) callback(err, null);
         else {
-            let options = this.composeOptions(connection, credential);
+            let options = this.composeOptions(connections, credential);
             callback(null, options);
         }
     }

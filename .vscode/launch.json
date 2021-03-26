@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
 		{
+			"type": "node2",
+			"request": "launch",
+			"name": "Launch receive",
+			"program": "${workspaceRoot}/obj/examples/receive2.js",
+			"cwd": "${workspaceRoot}"
+		},
+		{
 			// Name of configuration; appears in the launch configuration drop down menu.
 			"name": "Run mocha",
 			// Type of configuration. Possible values: "node", "mono".
