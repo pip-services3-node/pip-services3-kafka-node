@@ -133,11 +133,19 @@ export declare class KafkaConnection implements IMessageQueueConnection, IRefere
      */
     readQueueNames(callback: (err: any, queueNames: string[]) => void): void;
     /**
-     * Reads a list of registered topic names.
-     * If connection doesn't support this function returnes an empty list.
-     * @callback to receive a list with registered topic names or an error.
+     * Creates a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be created.
+     * @param callback notifies about completion with error or null for success.
      */
-    readTopicNames(callback: (err: any, topicNames: string[]) => void): void;
+    createQueue(name: string, callback: (err: any) => void): void;
+    /**
+     * Deletes a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be deleted.
+     * @param callback notifies about completion with error or null for success.
+     */
+    deleteQueue(name: string, callback: (err: any) => void): void;
     /**
      * Publish a message to a specified topic
      * @param topic a topic where the message will be placed

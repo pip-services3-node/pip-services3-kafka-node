@@ -296,21 +296,14 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
         });
     }
 
+
+
     /**
      * Reads a list of registered queue names.
      * If connection doesn't support this function returnes an empty list.
      * @callback to receive a list with registered queue names or an error.
      */
     public readQueueNames(callback: (err: any, queueNames: string[]) => void): void {
-       this.readTopicNames(callback);
-    }
-
-    /**
-     * Reads a list of registered topic names.
-     * If connection doesn't support this function returnes an empty list.
-     * @callback to receive a list with registered topic names or an error.
-     */
-     public readTopicNames(callback: (err: any, topicNames: string[]) => void): void {
          this.connectToAdmin((err) => {
             if (err != null) {
                 callback(err, null);
@@ -327,6 +320,28 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
          });
     }
 
+    /**
+     * Creates a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be created.
+     * @param callback notifies about completion with error or null for success.
+     */
+    public createQueue(name: string, callback: (err: any) => void): void {
+        // Todo: complete implementation
+        if (callback) callback(null);
+    }
+
+    /**
+     * Deletes a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be deleted.
+     * @param callback notifies about completion with error or null for success.
+     */
+    public deleteQueue(name: string, callback: (err: any) => void): void {
+        // Todo: complete implementation
+        if (callback) callback(null);
+    }
+     
     /**
      * Publish a message to a specified topic
      * @param topic a topic where the message will be placed

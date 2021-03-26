@@ -73,7 +73,7 @@ suite('KafkaConnection', ()=> {
                 });
             },
             (callback) => {
-                connection.readTopicNames((err, topics) => {
+                connection.readQueueNames((err, topics) => {
                     assert.isNull(err);
                     assert.isArray(topics);
 

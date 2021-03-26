@@ -257,14 +257,6 @@ class KafkaConnection {
      * @callback to receive a list with registered queue names or an error.
      */
     readQueueNames(callback) {
-        this.readTopicNames(callback);
-    }
-    /**
-     * Reads a list of registered topic names.
-     * If connection doesn't support this function returnes an empty list.
-     * @callback to receive a list with registered topic names or an error.
-     */
-    readTopicNames(callback) {
         this.connectToAdmin((err) => {
             if (err != null) {
                 callback(err, null);
@@ -278,6 +270,28 @@ class KafkaConnection {
                 callback(err, null);
             });
         });
+    }
+    /**
+     * Creates a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be created.
+     * @param callback notifies about completion with error or null for success.
+     */
+    createQueue(name, callback) {
+        // Todo: complete implementation
+        if (callback)
+            callback(null);
+    }
+    /**
+     * Deletes a message queue.
+     * If connection doesn't support this function it exists without error.
+     * @param name the name of the queue to be deleted.
+     * @param callback notifies about completion with error or null for success.
+     */
+    deleteQueue(name, callback) {
+        // Todo: complete implementation
+        if (callback)
+            callback(null);
     }
     /**
      * Publish a message to a specified topic

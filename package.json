@@ -43,7 +43,7 @@
         "kafkajs": "^1.12.0",
         "pip-services3-commons-node": "^3.0.0",
         "pip-services3-components-node": "^3.0.0",
-        "pip-services3-messaging-node": "^3.2.2"
+        "pip-services3-messaging-node": "^3.2.3"
     },
     "devDependencies": {
         "@types/async": "^2.0.0",
