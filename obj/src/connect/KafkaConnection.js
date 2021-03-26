@@ -11,7 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KafkaConnection = void 0;
 /** @module connect */
+/** @hidden */
 const kafka = require('kafkajs');
+/** @hidden */
+const os = require('os');
 const pip_services3_commons_node_1 = require("pip-services3-commons-node");
 const pip_services3_commons_node_2 = require("pip-services3-commons-node");
 const pip_services3_commons_node_3 = require("pip-services3-commons-node");
@@ -25,6 +28,7 @@ const KafkaConnectionResolver_1 = require("./KafkaConnectionResolver");
  *
  * ### Configuration parameters ###
  *
+ * - client_id:               (optional) name of the client id
  * - connection(s):
  *   - discovery_key:             (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
  *   - host:                      host name or IP address
@@ -56,7 +60,7 @@ class KafkaConnection {
         this._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples(
         // connections.*
         // credential.*
-        "options.log_level", 1, "options.connect_timeout", 1000, "options.retry_timeout", 30000, "options.max_retries", 5, "options.request_timeout", 30000);
+        "client_id", null, "options.log_level", 1, "options.connect_timeout", 1000, "options.retry_timeout", 30000, "options.max_retries", 5, "options.request_timeout", 30000);
         /**
          * The logger.
          */
@@ -73,6 +77,7 @@ class KafkaConnection {
          * Topic subscriptions
          */
         this._subscriptions = [];
+        this._clientId = os.hostname();
         this._logLevel = 1;
         this._connectTimeout = 1000;
         this._maxRetries = 5;
@@ -88,6 +93,7 @@ class KafkaConnection {
         config = config.setDefaults(this._defaultConfig);
         this._connectionResolver.configure(config);
         this._options = this._options.override(config.getSection("options"));
+        this._clientId = config.getAsStringWithDefault("client_id", this._clientId);
         this._logLevel = config.getAsIntegerWithDefault("options.log_level", this._logLevel);
         this._connectTimeout = config.getAsIntegerWithDefault("options.connect_timeout", this._connectTimeout);
         this._maxRetries = config.getAsIntegerWithDefault("options.max_retries", this._maxRetries);
@@ -133,6 +139,7 @@ class KafkaConnection {
             }
             try {
                 let options = {
+                    clientId: this._clientId,
                     retry: {
                         maxRetryType: this._requestTimeout,
                         retries: this._maxRetries

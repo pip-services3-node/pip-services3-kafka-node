@@ -46,6 +46,7 @@ const KafkaConnection_1 = require("../connect/KafkaConnection");
  *   - username:                    user name
  *   - password:                    user password
  * - options:
+ *   - autosubscribe:        (optional) true to automatically subscribe on option (default: false)
  *   - acks                  (optional) control the number of required acks: -1 - all, 0 - none, 1 - only leader (default: -1)
  *   - log_level:            (optional) log level 0 - None, 1 - Error, 2 - Warn, 3 - Info, 4 - Debug (default: 1)
  *   - connect_timeout:      (optional) number of milliseconds to connect to broker (default: 1000)
@@ -122,6 +123,7 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
         this._fromBeginning = config.getAsBooleanWithDefault("from_beginning", this._fromBeginning);
         this._readPartitions = config.getAsIntegerWithDefault("read_partitions", this._readPartitions);
         this._autoCommit = config.getAsBooleanWithDefault("autocommit", this._autoCommit);
+        this._autoSubscribe = config.getAsBooleanWithDefault("options.autosubscribe", this._autoSubscribe);
         this._acks = config.getAsIntegerWithDefault("options.acks", this._acks);
     }
     /**
@@ -566,5 +568,5 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
     }
 }
 exports.KafkaMessageQueue = KafkaMessageQueue;
-KafkaMessageQueue._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples("topic", null, "group_id", "default", "from_beginning", false, "read_partitions", 1, "autocommit", true, "options.acks", -1, "options.log_level", 1, "options.connect_timeout", 1000, "options.retry_timeout", 30000, "options.max_retries", 5, "options.request_timeout", 30000);
+KafkaMessageQueue._defaultConfig = pip_services3_commons_node_1.ConfigParams.fromTuples("topic", null, "group_id", "default", "from_beginning", false, "read_partitions", 1, "autocommit", true, "options.autosubscribe", false, "options.acks", -1, "options.log_level", 1, "options.connect_timeout", 1000, "options.retry_timeout", 30000, "options.max_retries", 5, "options.request_timeout", 30000);
 //# sourceMappingURL=KafkaMessageQueue.js.map

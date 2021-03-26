@@ -1,5 +1,8 @@
 /** @module connect */
+/** @hidden */
 const kafka = require('kafkajs');
+/** @hidden */
+const os = require('os');
 
 import { IReferenceable } from 'pip-services3-commons-node';
 import { IReferences } from 'pip-services3-commons-node';
@@ -14,6 +17,8 @@ import { IMessageQueueConnection } from 'pip-services3-messaging-node';
 import { KafkaConnectionResolver } from './KafkaConnectionResolver';
 import { IKafkaMessageListener } from './IKafkaMessageListener';
 import { KafkaSubscription } from './KafkaSubscription';
+import { openStdin } from 'node:process';
+import { timeStamp } from 'node:console';
 
 /**
  * Kafka connection using plain driver.
@@ -23,6 +28,7 @@ import { KafkaSubscription } from './KafkaSubscription';
  * 
  * ### Configuration parameters ###
  * 
+ * - client_id:               (optional) name of the client id
  * - connection(s):    
  *   - discovery_key:             (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
  *   - host:                      host name or IP address
@@ -52,6 +58,7 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
         // connections.*
         // credential.*
 
+        "client_id", null,
         "options.log_level", 1,
         "options.connect_timeout", 1000,
         "options.retry_timeout", 30000,
@@ -94,6 +101,7 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
      */
     protected _subscriptions: KafkaSubscription[] = [];
 
+    protected _clientId: string = os.hostname();
     protected _logLevel: number = 1;
     protected _connectTimeout: number = 1000;
     protected _maxRetries: number = 5;
@@ -115,6 +123,7 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
         this._connectionResolver.configure(config);
         this._options = this._options.override(config.getSection("options"));
 
+        this._clientId = config.getAsStringWithDefault("client_id", this._clientId);
         this._logLevel = config.getAsIntegerWithDefault("options.log_level", this._logLevel);
         this._connectTimeout = config.getAsIntegerWithDefault("options.connect_timeout", this._connectTimeout);
         this._maxRetries = config.getAsIntegerWithDefault("options.max_retries", this._maxRetries);
@@ -162,6 +171,7 @@ export class KafkaConnection implements IMessageQueueConnection, IReferenceable,
 
             try {                
                 let options: any = {
+                    clientId: this._clientId,
                     retry: {
                         maxRetryType: this._requestTimeout,
                         retries: this._maxRetries
