@@ -84,7 +84,7 @@ export class KafkaConnectionResolver implements IReferenceable, IConfigurable {
             return new ConfigException(correlationId, "NO_HOST", "Connection host is not set");
         }
 
-        let port = connection.getAsIntegerWithDefault("protocol", 9092);
+        let port = connection.getAsIntegerWithDefault("port", 9092);
         if (port == 0) {
             return new ConfigException(correlationId, "NO_PORT", "Connection port is not set");
         }

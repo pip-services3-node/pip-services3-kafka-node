@@ -77,7 +77,7 @@ class KafkaConnectionResolver {
         if (host == null) {
             return new pip_services3_commons_node_2.ConfigException(correlationId, "NO_HOST", "Connection host is not set");
         }
-        let port = connection.getAsIntegerWithDefault("protocol", 9092);
+        let port = connection.getAsIntegerWithDefault("port", 9092);
         if (port == 0) {
             return new pip_services3_commons_node_2.ConfigException(correlationId, "NO_PORT", "Connection port is not set");
         }
