@@ -444,8 +444,14 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
             // Otherwise wait and return
             let checkInterval = 100;
             let elapsedTime = 0;
-            async.whilst(() => {
-                return this.isOpen() && elapsedTime < waitTimeout && message == null;
+            async.whilst((callback) => {
+                let test = this.isOpen() && elapsedTime < waitTimeout && message == null;
+                if (typeof callback === "function") {
+                    callback(null, test);
+                }
+                else {
+                    return test;
+                }
             }, (whilstCallback) => {
                 elapsedTime += checkInterval;
                 setTimeout(() => {
@@ -602,8 +608,14 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
             }
             this._logger.trace(null, "Started listening messages at %s", this.getName());
             // Resend collected messages to receiver
-            async.whilst(() => {
-                return this.isOpen() && this._messages.length > 0;
+            async.whilst((callback) => {
+                let test = this.isOpen() && this._messages.length > 0;
+                if (typeof callback === "function") {
+                    callback(null, test);
+                }
+                else {
+                    return test;
+                }
             }, (whilstCallback) => {
                 let message = this._messages.shift();
                 if (message != null) {
