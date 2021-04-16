@@ -206,6 +206,7 @@ class KafkaMessageQueue extends pip_services3_messaging_node_1.MessageQueue {
                 });
             }
             else {
+                this._opened = true;
                 if (callback)
                     callback(null);
             }

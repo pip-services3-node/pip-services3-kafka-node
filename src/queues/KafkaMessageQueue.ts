@@ -254,6 +254,7 @@ export class KafkaMessageQueue extends MessageQueue
                     if (callback) callback(err);
                 });
             } else {
+                this._opened = true;        
                 if (callback) callback(null);
             }            
         };
