@@ -26,6 +26,6 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.build
-    image: ${IMAGE:-pipdevs-build}
+    image: ${IMAGE:-pipservices-build}
     depends_on:
       - kafka
